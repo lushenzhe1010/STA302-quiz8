@@ -1,0 +1,29 @@
+install.packages(dplyr)
+library(dplyr)
+
+
+set.seed(123) 
+n <- 1000
+
+
+age_group <- sample(c('18-24', '25-34', '35-44', '45-54', '55-64', '65+'), n, replace = TRUE)
+gender <- sample(c('Male', 'Female'), n, replace = TRUE)
+income_group <- sample(c('Low', 'Medium', 'High', 'Very High'), n, replace = TRUE)
+highest_education <- sample(c('High School', 'Some College', 'Bachelor\'s', 'Master\'s', 'Doctorate'), n, replace = TRUE)
+
+
+support <- ifelse(runif(n) < 0.5, 'Y', 'N')
+
+
+data <- data.frame(support, age_group, gender, income_group, highest_education)
+
+
+test_results <- list()
+
+test_variables <- c('age_group', 'gender', 'income_group', 'highest_education')
+for(var in test_variables) {
+  test_results[[var]] <- chisq.test(table(data[[var]], data$support))
+}
+
+
+test_results
