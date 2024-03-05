@@ -58,3 +58,31 @@ model <- stan_glm(SupportBinary ~ AgeGroup + IncomeGroup + HighestEducation,
 
 
 print(summary(model))
+
+
+Q7
+
+install.packages("lmtest")
+library(lmtest)
+
+
+set.seed(123) 
+n <- 100 
+earth <- rnorm(n, mean=50, sd=10)
+fire <- rnorm(n, mean=30, sd=5)
+wind <- rnorm(n, mean=20, sd=4)
+water <- rnorm(n, mean=40, sd=7)
+heart <- 5 + 1.5*earth + 2*fire + 0.5*wind + 3*water + rnorm(n, mean=0, sd=5) # heart depends on earth, fire, wind, water
+
+
+data <- data.frame(earth, fire, wind, water, heart)
+
+
+model <- lm(heart ~ earth + fire + wind + water, data=data)
+
+
+summary(model)
+
+
+bptest(model) 
+nortest::lillie.test(residuals(model)) 
